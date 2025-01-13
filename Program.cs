@@ -14,24 +14,24 @@ the * character) that shows the total percentage each number was rolled. Each * 
 1% of the total rolls.
  */
 
-using System;
+using System; //allows me to just write Console.WriteLine instead of System.Console.WriteLine
 
 class Program
 {
     static void Main(string[] args)
     {
         Console.WriteLine("Welcome to the dice throwing simulator!");
-        Console.Write("How many dice rolls would you like to simulate? ");
+        Console.WriteLine("How many dice rolls would you like to simulate? ");
         
         // Safely parse the user input to an integer.
-        if (!int.TryParse(Console.ReadLine(), out int numberOfRolls) || numberOfRolls < 1)
+        if (!int.TryParse(Console.ReadLine(), out int numberOfRolls) || numberOfRolls < 1) //TryParse attempts to convert the string input from Console.Readline into an int and returns true or false. If not true, the following line is triggered 
         {
             Console.WriteLine("Invalid number of rolls. Please enter a positive integer.");
-            return;
+            return; // exits the Main Method
         }
 
         // Create an instance of the DiceSimulator class
-        DiceSimulator simulator = new DiceSimulator();
+        var simulator = new DiceSimulator();
 
         // Perform the simulation and get the results
         int[] results = simulator.RollDice(numberOfRolls);
@@ -63,7 +63,7 @@ class DiceSimulator
     {
         int[] rollCounts = new int[13]; // From 0 to 12, 0 and 1 are unused
 
-        Random rng = new Random();
+        var rng = new Random();
         for (int i = 0; i < rolls; i++)
         {
             int rollOne = rng.Next(1, 7); // Generate a number from 1 to 6
