@@ -14,12 +14,64 @@ the * character) that shows the total percentage each number was rolled. Each * 
 1% of the total rolls.
  */
 
+using System;
 
-internal class Program
+class Program
 {
- public static void Main(string[] args)
- {
-  Console.WriteLine("Welcome to the dice throwing simulator!")
-   ;
- }
+    static void Main(string[] args)
+    {
+        Console.WriteLine("Welcome to the dice throwing simulator!");
+        Console.Write("How many dice rolls would you like to simulate? ");
+        
+        // Safely parse the user input to an integer.
+        if (!int.TryParse(Console.ReadLine(), out int numberOfRolls) || numberOfRolls < 1)
+        {
+            Console.WriteLine("Invalid number of rolls. Please enter a positive integer.");
+            return;
+        }
+
+        // Create an instance of the DiceSimulator class
+        DiceSimulator simulator = new DiceSimulator();
+
+        // Perform the simulation and get the results
+        int[] results = simulator.RollDice(numberOfRolls);
+
+        // Output the histogram
+        Console.WriteLine("DICE ROLLING SIMULATION RESULTS");
+        Console.WriteLine("Each \"*\" represents 1% of the total number of rolls.");
+        Console.WriteLine($"Total number of rolls = {numberOfRolls}.");
+
+        for (int i = 2; i < results.Length; i++)
+        {
+            Console.Write($"{i}: ");
+            int stars = results[i] * 100 / numberOfRolls;
+            for (int j = 0; j < stars; j++)
+            {
+                Console.Write("*");
+            }
+            Console.WriteLine();
+        }
+
+        Console.WriteLine("Thank you for using the dice throwing simulator. Goodbye!");
+    }
+}
+
+class DiceSimulator
+{
+    // Method to simulate dice rolls
+    public int[] RollDice(int rolls)
+    {
+        int[] rollCounts = new int[13]; // From 0 to 12, 0 and 1 are unused
+
+        Random rng = new Random();
+        for (int i = 0; i < rolls; i++)
+        {
+            int rollOne = rng.Next(1, 7); // Generate a number from 1 to 6
+            int rollTwo = rng.Next(1, 7); // Generate a number from 1 to 6
+            int sum = rollOne + rollTwo;
+            rollCounts[sum]++;
+        }
+
+        return rollCounts;
+    }
 }
